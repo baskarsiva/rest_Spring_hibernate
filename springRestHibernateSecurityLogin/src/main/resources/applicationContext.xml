@@ -1,0 +1,43 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<context:annotation-config />
+	<context:component-scan
+		base-package="com.baskar.rest" />
+	<context:component-scan base-package="dao" />
+	<context:component-scan base-package="model" />
+	<context:component-scan base-package="service" />
+	
+	<!-- <import resource="config/hibernate.cfg.xml"/> -->
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">  
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost/hibernateannotation?serverTimezone=UTC" />
+		<property name="username" value="root" />
+		<property name="password" value="mysql" /> 
+    </bean>  
+      
+    <bean id="sessionFactory"  class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">  
+        <property name="dataSource" ref="dataSource"></property>  
+        <property name="annotatedClasses">  
+        <list>  
+        	<value>model.EmployeeUser</value>  
+        </list>  
+        </property>  
+        <property name="hibernateProperties">  
+            <props>  
+              	<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.current_session_context_class">thread</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">create</prop>
+            </props>  
+        </property>  
+    </bean>
+        
+    
+</beans>
